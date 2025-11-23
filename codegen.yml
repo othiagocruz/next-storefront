@@ -1,0 +1,16 @@
+overwrite: true
+schema: "https://storefront.hasura.app/v1/graphql"
+config:
+  scalars:
+    money: string
+    timestamptz: string
+    uuid: string
+documents: "lib/**/*.ts"
+generates:
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
+  lib/generated/graphql.d.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"

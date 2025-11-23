@@ -6,16 +6,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "predev": "bun generate",
+    "prebuild": "bun generate",
+    "lint": "eslint",
+    "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@graphql-codegen/cli": "^6.1.0",
+    "@graphql-codegen/introspection": "^5.0.0",
+    "@graphql-codegen/typescript": "^5.0.5",
+    "@graphql-codegen/typescript-operations": "^5.0.5",
     "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "graphql-request": "^7.3.4",
     "lucide-react": "^0.554.0",
     "next": "16.0.3",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "swr": "^2.3.6",
     "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
