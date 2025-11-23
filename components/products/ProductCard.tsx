@@ -18,7 +18,7 @@ import {
 
 import { cn } from "@/lib/utils";
 
-const CardProductDemo = () => {
+const ProductCard = () => {
   const [liked, setLiked] = useState<boolean>(false);
 
   return (
@@ -28,6 +28,8 @@ const CardProductDemo = () => {
           src="https://cdn.shadcnstudio.com/ss-assets/components/card/image-11.png?width=300&format=auto"
           alt="Shoes"
           className="w-75"
+          width={300}
+          height={250}
         />
       </div>
       <Button
@@ -72,4 +74,4 @@ const CardProductDemo = () => {
   );
 };
 
-export default CardProductDemo;
+export default ProductCard;
