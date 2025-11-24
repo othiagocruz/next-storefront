@@ -46,19 +46,17 @@ const ProductCard = ({
   const [liked, setLiked] = useState<boolean>(false);
 
   return (
-    <div className="relative max-w-md rounded-xl bg-linear-to-r from-neutral-600 to-violet-300 pt-0 shadow-lg">
-      <div className="flex h-60 items-center justify-center">
-        <Image
-          src={product.product_variants[0].variant_images[0].image_url.replace(
-            "800/800",
-            "300/200"
-          )}
-          alt="Shoes"
-          className="w-75"
-          width={300}
-          height={200}
-        />
-      </div>
+    <div className="relative max-w-md rounded-xl bg-linear-to-r from-neutral-600 to-violet-300 pt-0 shadow-lg flex-col flex overflow-hidden">
+      <Image
+        src={product.product_variants[0].variant_images[0].image_url.replace(
+          "800/800",
+          "500/300"
+        )}
+        alt={product.product_variants[0].variant_images[0].alt_text || ""}
+        width={500}
+        className="bg-cover"
+        height={300}
+      />
       <Button
         size="icon"
         onClick={() => setLiked(!liked)}
@@ -71,7 +69,7 @@ const ProductCard = ({
         />
         <span className="sr-only">Like</span>
       </Button>
-      <Card className="border-none">
+      <Card className="border-none rounded-t-none rounded-b-xl flex flex-1 flex-col grow">
         <CardHeader>
           <CardTitle>{product.name}</CardTitle>
           <CardDescription>
@@ -95,7 +93,7 @@ const ProductCard = ({
             )}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="grow">
           <p>{product.description}</p>
         </CardContent>
         <CardFooter className="justify-between gap-3 max-sm:flex-col max-sm:items-stretch">
