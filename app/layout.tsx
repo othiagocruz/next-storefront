@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { StackProvider, StackTheme } from "@stackframe/stack";
+import { stackClientApp } from "../stack/client";
 import { Geist_Mono, Outfit, Merriweather } from "next/font/google";
 import "./globals.css";
 
@@ -32,7 +34,9 @@ export default function RootLayout({
       <body
         className={`${geistMono.variable} ${outfit.variable} ${merriweather.variable} antialiased`}
       >
-        {children}
+        <StackProvider app={stackClientApp}>
+          <StackTheme>{children}</StackTheme>
+        </StackProvider>
       </body>
     </html>
   );
