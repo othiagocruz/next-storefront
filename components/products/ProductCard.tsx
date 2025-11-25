@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 import { HeartIcon } from "lucide-react";
@@ -90,25 +90,6 @@ const ProductCard = ({
         <CardHeader>
           <CardTitle>{product.name}</CardTitle>
           <CardDescription>
-            {/* {product.product_attributes_summary?.grouped_attributes.map(
-              (attr: ProductAttribute) => (
-                <Fragment key={attr.attribute_id}>
-                  <p>{attr.display_name}</p>
-                  <div className={"flex items-center gap-1 flex-wrap"}>
-                    {attr.available_values.map((attribute, i) => (
-                      <Badge
-                        key={attribute.value}
-                        variant={i === 0 ? "default" : "outline"}
-                        className="rounded-sm"
-                      >
-                        {attribute.value}
-                      </Badge>
-                    ))}
-                  </div>
-                </Fragment>
-              )
-            )} */}
-
             {product.product_attributes_summary?.grouped_attributes.map(
               (attr: ProductAttribute) => (
                 <div key={attr.attribute_id} className="mb-3">

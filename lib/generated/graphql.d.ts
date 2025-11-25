@@ -884,6 +884,8 @@ export type Product_Attributes_Summary = {
   __typename?: 'product_attributes_summary';
   grouped_attributes?: Maybe<Scalars['jsonb']['output']>;
   product_id?: Maybe<Scalars['Int']['output']>;
+  /** An object relationship */
+  product_summary?: Maybe<Products_New>;
 };
 
 
@@ -899,12 +901,14 @@ export type Product_Attributes_Summary_Bool_Exp = {
   _or?: InputMaybe<Array<Product_Attributes_Summary_Bool_Exp>>;
   grouped_attributes?: InputMaybe<Jsonb_Comparison_Exp>;
   product_id?: InputMaybe<Int_Comparison_Exp>;
+  product_summary?: InputMaybe<Products_New_Bool_Exp>;
 };
 
 /** Ordering options when selecting data from "product_attributes_summary". */
 export type Product_Attributes_Summary_Order_By = {
   grouped_attributes?: InputMaybe<Order_By>;
   product_id?: InputMaybe<Order_By>;
+  product_summary?: InputMaybe<Products_New_Order_By>;
 };
 
 /** select columns of table "product_attributes_summary" */
