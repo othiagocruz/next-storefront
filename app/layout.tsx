@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { StackProvider, StackTheme } from "@stackframe/stack";
 import { stackClientApp } from "../stack/client";
 import { Geist_Mono, Outfit, Merriweather } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistMono.variable} ${outfit.variable} ${merriweather.variable} antialiased`}
       >
+        <Analytics />
         <StackProvider app={stackClientApp}>
           <StackTheme>{children}</StackTheme>
         </StackProvider>

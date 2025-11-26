@@ -1,4 +1,5 @@
 import request, { gql } from "graphql-request";
+import { GetProductsQuery } from "../generated/graphql";
 
 const query = gql`
   query GetProducts @cached {
@@ -40,7 +41,10 @@ const query = gql`
 `;
 
 export default async function getProducts() {
-  const data = await request("https://storefront.hasura.app/v1/graphql", query);
+  const data = await request<GetProductsQuery>(
+    process.env.HASURA_GRAPHQL_ENDPOINT as string,
+    query
+  );
 
   return data.products_new;
 }

@@ -2366,7 +2366,19 @@ export type Variant_Images_Variance_Order_By = {
   variant_id?: InputMaybe<Order_By>;
 };
 
+export type GetProductByVariantSkuQueryVariables = Exact<{
+  sku?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetProductByVariantSkuQuery = { __typename?: 'query_root', products_new: Array<{ __typename?: 'products_new', base_price?: any | null, created_at?: any | null, description?: string | null, id: number, name: string, product_attributes_summary?: { __typename?: 'product_attributes_summary', grouped_attributes?: any | null } | null, product_variants: Array<{ __typename?: 'product_variants', created_at?: any | null, id: number, price: any, sku: string, stock_quantity?: number | null, variant_images: Array<{ __typename?: 'variant_images', alt_text?: string | null, display_order?: number | null, id: number, image_type?: string | null, image_url: string }>, variant_attributes: Array<{ __typename?: 'variant_attributes', attribute_value: { __typename?: 'attribute_values', value: string, id: number, attribute_id?: number | null, product_attribute?: { __typename?: 'product_attributes', display_name: string } | null } }> }> }>, attribute_values: Array<{ __typename?: 'attribute_values', id: number, value: string }> };
+
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetProductsQuery = { __typename?: 'query_root', products_new: Array<{ __typename?: 'products_new', base_price?: any | null, created_at?: any | null, description?: string | null, id: number, name: string, product_attributes_summary?: { __typename?: 'product_attributes_summary', grouped_attributes?: any | null } | null, product_variants: Array<{ __typename?: 'product_variants', created_at?: any | null, id: number, price: any, sku: string, stock_quantity?: number | null, variant_images: Array<{ __typename?: 'variant_images', alt_text?: string | null, display_order?: number | null, id: number, image_type?: string | null, image_url: string }>, variant_attributes: Array<{ __typename?: 'variant_attributes', attribute_value: { __typename?: 'attribute_values', value: string, id: number, attribute_id?: number | null, product_attribute?: { __typename?: 'product_attributes', display_name: string } | null } }> }> }> };
+
+export type GetProductVariantsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductVariantsQuery = { __typename?: 'query_root', product_variants: Array<{ __typename?: 'product_variants', sku: string, id: number }> };

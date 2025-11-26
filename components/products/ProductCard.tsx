@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import useSWR from "swr";
 import Image from "next/image";
 
 import { HeartIcon } from "lucide-react";
@@ -16,8 +17,11 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-import { cn } from "@/lib/utils";
-import { GetProductsQuery } from "@/lib/generated/graphql";
+import { cn, fetcher } from "@/lib/utils";
+import {
+  GetProductByVariantSkuQuery,
+  GetProductsQuery,
+} from "@/lib/generated/graphql";
 import { useVariantSelector } from "@/lib/useVariantSelector";
 
 export interface ProductAttributeValue {
@@ -40,11 +44,27 @@ const usdFormatter = new Intl.NumberFormat("en-US", {
 export type GroupedAttributes = ProductAttribute[];
 
 const ProductCard = ({
-  product,
+  product: initialValues,
+  values,
+  swr,
 }: {
   product: GetProductsQuery["products_new"][0];
+  values?: GetProductByVariantSkuQuery["attribute_values"];
+  swr?: boolean;
 }) => {
   const [liked, setLiked] = useState<boolean>(false);
+
+  const { data: product } = useSWR(
+    swr ? `/api/product/${initialValues.product_variants[0].sku}` : null,
+    fetcher,
+    {
+      fallback: {
+        [`/api/product/${initialValues.product_variants[0].sku}`]:
+          initialValues,
+      },
+    }
+  );
+
   const {
     selectedAttributes,
     currentVariant,
@@ -88,7 +108,9 @@ const ProductCard = ({
       </Button>
       <Card className="border-none rounded-t-none rounded-b-xl flex flex-1 flex-col grow">
         <CardHeader>
-          <CardTitle>{product.name}</CardTitle>
+          <CardTitle>
+            {product.name} {currentVariant.id}
+          </CardTitle>
           <CardDescription>
             {product.product_attributes_summary?.grouped_attributes.map(
               (attr: ProductAttribute) => (
@@ -122,7 +144,11 @@ const ProductCard = ({
                             )
                           }
                         >
-                          {item.value}
+                          {item.value}{" "}
+                          {
+                            values?.find((item2) => item2.value === item.value)
+                              ?.id
+                          }
                           {!isAvailable && " (unavailable)"}
                         </Badge>
                       );
