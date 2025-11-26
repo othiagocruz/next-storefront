@@ -82,7 +82,7 @@ const ProductCard = ({
     product.product_variants[0]
   );
 
-  const handleAttributeSelect = (attributeId: number, value: string): void => {
+  const checkAvailability = (attributeId: number, value: string) => {
     const values: string[] = [];
     Object.values(variants[currentVariant.sku]).forEach((attr) => {
       if (attr.attribute_id !== attributeId) {
@@ -98,9 +98,7 @@ const ProductCard = ({
       )
     );
 
-    if (foundVariant) {
-      setCurrentVariant(foundVariant);
-    }
+    return foundVariant;
   };
 
   const mainImage =
@@ -146,13 +144,22 @@ const ProductCard = ({
                         variants[currentVariant.sku]
                       ).find((val) => val.value === item.value);
 
+                      const isAvailable = checkAvailability(
+                        attr.attribute_id,
+                        item.value
+                      );
+
                       return (
                         <Badge
                           key={item.value}
                           variant={isSelected ? "default" : "outline"}
-                          className="rounded-sm cursor-pointer transition-all hover:bg-primary/80"
+                          className={cn(
+                            "rounded-sm cursor-pointer transition-all hover:bg-primary/80",
+                            !isAvailable &&
+                              "opacity-30 cursor-not-allowed hover:bg-transparent"
+                          )}
                           onClick={() =>
-                            handleAttributeSelect(attr.attribute_id, item.value)
+                            isAvailable && setCurrentVariant(isAvailable)
                           }
                         >
                           {item.value}{" "}
