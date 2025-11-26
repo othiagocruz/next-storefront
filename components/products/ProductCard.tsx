@@ -22,7 +22,6 @@ import {
   GetProductByVariantSkuQuery,
   GetProductsQuery,
 } from "@/lib/generated/graphql";
-import { useVariantSelector } from "@/lib/useVariantSelector";
 
 export interface ProductAttributeValue {
   value: string;
@@ -54,7 +53,7 @@ const ProductCard = ({
 }) => {
   const [liked, setLiked] = useState<boolean>(false);
 
-  const { data: product } = useSWR(
+  let { data: product } = useSWR<GetProductsQuery["products_new"][0]>(
     swr ? `/api/product/${initialValues.product_variants[0].sku}` : null,
     fetcher,
     {
@@ -65,19 +64,42 @@ const ProductCard = ({
     }
   );
 
-  const {
-    selectedAttributes,
-    currentVariant,
-    isAttributeAvailable,
-    selectAttribute,
-  } = useVariantSelector(product);
+  if (!product) product = initialValues;
 
-  const handleAttributeSelect = (
-    attributeName: string,
-    value: string
-  ): void => {
-    if (isAttributeAvailable(attributeName, value)) {
-      selectAttribute(attributeName, value);
+  const variants: Record<
+    string,
+    { attribute_id: number | null | undefined; value: string }[]
+  > = {};
+
+  product.product_variants.forEach((variant) => {
+    variants[variant.sku] = variant.variant_attributes.map((attr) => ({
+      attribute_id: attr.attribute_value.attribute_id,
+      value: attr.attribute_value.value,
+    }));
+  });
+
+  const [currentVariant, setCurrentVariant] = useState(
+    product.product_variants[0]
+  );
+
+  const handleAttributeSelect = (attributeId: number, value: string): void => {
+    const values: string[] = [];
+    Object.values(variants[currentVariant.sku]).forEach((attr) => {
+      if (attr.attribute_id !== attributeId) {
+        values.push(attr.value);
+      }
+    });
+
+    values.push(value);
+
+    const foundVariant = product.product_variants.find((variant) =>
+      variant.variant_attributes.every((attr) =>
+        values.includes(attr.attribute_value.value)
+      )
+    );
+
+    if (foundVariant) {
+      setCurrentVariant(foundVariant);
     }
   };
 
@@ -109,10 +131,10 @@ const ProductCard = ({
       <Card className="border-none rounded-t-none rounded-b-xl flex flex-1 flex-col grow">
         <CardHeader>
           <CardTitle>
-            {product.name} {currentVariant.id}
+            {product?.name} {currentVariant.id}
           </CardTitle>
           <CardDescription>
-            {product.product_attributes_summary?.grouped_attributes.map(
+            {product?.product_attributes_summary?.grouped_attributes.map(
               (attr: ProductAttribute) => (
                 <div key={attr.attribute_id} className="mb-3">
                   <p className="text-sm font-medium mb-2">
@@ -120,28 +142,17 @@ const ProductCard = ({
                   </p>
                   <div className="flex items-center gap-1 flex-wrap">
                     {attr.available_values.map((item) => {
-                      const isSelected =
-                        selectedAttributes[attr.attribute_name] === item.value;
-                      const isAvailable = isAttributeAvailable(
-                        attr.attribute_name,
-                        item.value
-                      );
+                      const isSelected = Object.values(
+                        variants[currentVariant.sku]
+                      ).find((val) => val.value === item.value);
 
                       return (
                         <Badge
                           key={item.value}
                           variant={isSelected ? "default" : "outline"}
-                          className={`rounded-sm cursor-pointer transition-all ${
-                            !isAvailable
-                              ? "opacity-50 cursor-not-allowed"
-                              : "hover:bg-primary/80"
-                          }`}
+                          className="rounded-sm cursor-pointer transition-all hover:bg-primary/80"
                           onClick={() =>
-                            isAvailable &&
-                            handleAttributeSelect(
-                              attr.attribute_name,
-                              item.value
-                            )
+                            handleAttributeSelect(attr.attribute_id, item.value)
                           }
                         >
                           {item.value}{" "}
@@ -149,7 +160,6 @@ const ProductCard = ({
                             values?.find((item2) => item2.value === item.value)
                               ?.id
                           }
-                          {!isAvailable && " (unavailable)"}
                         </Badge>
                       );
                     })}
@@ -160,7 +170,7 @@ const ProductCard = ({
           </CardDescription>
         </CardHeader>
         <CardContent className="grow">
-          <p>{product.description}</p>
+          <p>{product?.description}</p>
           <div className="text-xs text-muted-foreground">
             <p>SKU: {currentVariant.sku}</p>
             <p>Stock: {currentVariant.stock_quantity} available</p>
