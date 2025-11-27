@@ -17,7 +17,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 
-import { cn, fetcher } from "@/lib/utils";
+import { cn, fetcher, usdFormatter } from "@/lib/utils";
 import {
   GetProductByVariantSkuQuery,
   GetProductsQuery,
@@ -34,11 +34,6 @@ export interface ProductAttribute {
   display_name: string;
   available_values: ProductAttributeValue[];
 }
-
-const usdFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
 
 export type GroupedAttributes = ProductAttribute[];
 

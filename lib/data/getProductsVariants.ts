@@ -6,6 +6,8 @@ const query = gql`
     product_variants {
       sku
       id
+      stock_quantity
+      price
     }
   }
 `;

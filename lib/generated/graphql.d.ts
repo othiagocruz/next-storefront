@@ -2381,4 +2381,4 @@ export type GetProductsQuery = { __typename?: 'query_root', products_new: Array<
 export type GetProductVariantsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductVariantsQuery = { __typename?: 'query_root', product_variants: Array<{ __typename?: 'product_variants', sku: string, id: number }> };
+export type GetProductVariantsQuery = { __typename?: 'query_root', product_variants: Array<{ __typename?: 'product_variants', sku: string, id: number, stock_quantity?: number | null, price: any }> };
