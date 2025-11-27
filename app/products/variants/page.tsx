@@ -15,11 +15,18 @@ import Link from "next/link";
 
 export default async function ProductVariants() {
   const variants = await getProductVariants();
+  let total = 0;
+  variants.forEach((variant) => {
+    total += variant.price * (variant.stock_quantity || 0);
+  });
 
   return (
     <Container>
+      <h2 className="text-2xl font-semibold md:text-3xl lg:text-4xl mb-8">
+        Inventory
+      </h2>
       <Table>
-        <TableCaption>Default table.</TableCaption>
+        <TableCaption>EOF</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-1/4">ID</TableHead>
@@ -47,7 +54,9 @@ export default async function ProductVariants() {
         <TableFooter>
           <TableRow>
             <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
+            <TableCell className="text-right">
+              {usdFormatter.format(total)}
+            </TableCell>
           </TableRow>
         </TableFooter>
       </Table>
