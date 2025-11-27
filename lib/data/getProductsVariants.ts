@@ -1,5 +1,6 @@
 import request, { gql } from "graphql-request";
 import { GetProductVariantsQuery } from "../generated/graphql";
+import { cacheLife, cacheTag } from "next/cache";
 
 const query = gql`
   query GetProductVariants {
@@ -13,6 +14,11 @@ const query = gql`
 `;
 
 export default async function getProductVariants() {
+  "use cache";
+
+  cacheLife("hasura");
+  cacheTag("products");
+
   const data = await request<GetProductVariantsQuery>(
     process.env.HASURA_GRAPHQL_ENDPOINT as string,
     query

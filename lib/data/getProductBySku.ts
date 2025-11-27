@@ -3,6 +3,7 @@ import {
   GetProductByVariantSkuQuery,
   GetProductByVariantSkuQueryVariables,
 } from "../generated/graphql";
+import { cacheLife, cacheTag } from "next/cache";
 
 export const GetProductByVariantSku = gql`
   query GetProductByVariantSku($sku: String = "") {
@@ -50,6 +51,11 @@ export const GetProductByVariantSku = gql`
 `;
 
 export default async function getProductBySku({ sku }: { sku: string }) {
+  "use cache";
+
+  cacheLife("hasura");
+  cacheTag("products");
+
   const data = await request<
     GetProductByVariantSkuQuery,
     GetProductByVariantSkuQueryVariables
