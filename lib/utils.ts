@@ -12,3 +12,22 @@ export const usdFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
 });
+
+export const navigationData = [
+  {
+    title: "Home",
+    href: "/",
+  },
+  {
+    title: "Products",
+    href: "/products/variants",
+  },
+  {
+    title: "About",
+    href: "/about",
+  },
+  {
+    title: "Contact",
+    href: "/contact",
+  },
+];

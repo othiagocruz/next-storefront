@@ -4,6 +4,9 @@ import { stackClientApp } from "../stack/client";
 import { Geist_Mono, Outfit, Merriweather } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import { navigationData } from "@/lib/utils";
+import Footer from "@/components/Footer";
 
 const geistMono = Geist_Mono({
   variable: "--font-mono",
@@ -36,9 +39,14 @@ export default function RootLayout({
         className={`${geistMono.variable} ${outfit.variable} ${merriweather.variable} antialiased`}
       >
         <Analytics />
+
         <StackProvider app={stackClientApp}>
-          <StackTheme>{children}</StackTheme>
+          <StackTheme>
+            <Navbar navigationData={navigationData} />
+            {children}
+          </StackTheme>
         </StackProvider>
+        <Footer />
       </body>
     </html>
   );

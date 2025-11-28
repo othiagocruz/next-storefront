@@ -162,7 +162,4 @@
   body {
     @apply bg-background text-foreground;
   }
-  a:visited {
-    @apply text-primary/80;
-  }
 }
