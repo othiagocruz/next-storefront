@@ -1,11 +1,16 @@
+import getProducts from "@/lib/data/getProducts";
 import ProductCard from "./ProductCard";
-import { GetProductsQuery } from "@/lib/generated/graphql";
+import { getOrCreateSessionId } from "@/lib/sessionManager";
+import { stackServerApp } from "@/stack/server";
 
-const ProductsList = ({
-  products,
-}: {
-  products: GetProductsQuery["products_new"];
-}) => {
+export default async function ProductList() {
+  const user = await stackServerApp.getUser();
+  const userId = user ? user.id : await getOrCreateSessionId();
+  return <CachedContent userId={userId} />;
+}
+
+async function CachedContent({ userId }: { userId: string }) {
+  const products = await getProducts({ userId });
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => (
@@ -13,6 +18,4 @@ const ProductsList = ({
       ))}
     </div>
   );
-};
-
-export default ProductsList;
+}

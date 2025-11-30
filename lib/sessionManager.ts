@@ -1,9 +1,8 @@
-"use server";
-
 import { cookies } from "next/headers";
 import { isDevEnvironment } from "./utils";
 
 export async function getOrCreateSessionId() {
+  "use server";
   const cookieStore = await cookies();
   let sessionId = cookieStore.get("sessionId")?.value;
 

@@ -1,18 +1,11 @@
 import Container from "@/components/Container";
 import ProductsList from "@/components/products/ProductList";
 import { Button } from "@/components/ui/button";
-import getProducts from "@/lib/data/getProducts";
-import { getOrCreateSessionId } from "@/lib/sessionManager";
-import { stackServerApp } from "@/stack/server";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default async function Home() {
-  "use server";
-  const user = await stackServerApp.getUser();
-  const userId = user ? user.id : await getOrCreateSessionId();
-  const products = await getProducts({ userId });
-
   return (
     <Container>
       <div className="mb-12 space-y-4 sm:mb-16 lg:mb-24">
@@ -35,7 +28,9 @@ export default async function Home() {
         </Button>
       </div>
 
-      <ProductsList products={products} />
+      <Suspense>
+        <ProductsList />
+      </Suspense>
     </Container>
   );
 }
