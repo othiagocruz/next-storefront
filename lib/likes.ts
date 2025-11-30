@@ -1,7 +1,6 @@
 "use server";
 
-import { stackServerApp } from "@/stack/server";
-import { getOrCreateSessionId } from "./sessionManager";
+import { getSessionId } from "./sessionManager";
 import request, { gql } from "graphql-request";
 import {
   DeleteLikeMutation,
@@ -35,8 +34,7 @@ export default async function AddOrRemoveLike({
   id: number;
   liked: boolean;
 }) {
-  const user = await stackServerApp.getUser();
-  const userId = user ? user.id : await getOrCreateSessionId();
+  const userId = await getSessionId();
 
   try {
     if (liked) {

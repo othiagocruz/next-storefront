@@ -1,11 +1,9 @@
 import getProducts from "@/lib/data/getProducts";
 import ProductCard from "./ProductCard";
-import { getOrCreateSessionId } from "@/lib/sessionManager";
-import { stackServerApp } from "@/stack/server";
+import { getSessionId } from "@/lib/sessionManager";
 
 export default async function ProductList() {
-  const user = await stackServerApp.getUser();
-  const userId = user ? user.id : await getOrCreateSessionId();
+  const userId = await getSessionId();
   return <CachedContent userId={userId} />;
 }
 

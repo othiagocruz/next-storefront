@@ -1,7 +1,6 @@
 import { ProductPage } from "@/components/products/ProductPage";
 import getProductBySku from "@/lib/data/getProductBySku";
-import { getOrCreateSessionId } from "@/lib/sessionManager";
-import { stackServerApp } from "@/stack/server";
+import { getSessionId } from "@/lib/sessionManager";
 import { Suspense } from "react";
 
 export async function generateMetadata({
@@ -10,10 +9,7 @@ export async function generateMetadata({
   params: { sku: string };
 }) {
   const { sku } = await params;
-
-  const user = await stackServerApp.getUser();
-  const userId = user ? user.id : await getOrCreateSessionId();
-
+  const userId = await getSessionId();
   const product = await getProductBySku({ sku, userId });
   return {
     title: `${product.products_new[0].product_variants[0].id} - ${sku}`,
