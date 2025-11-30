@@ -3,6 +3,7 @@ import { StackProvider, StackTheme } from "@stackframe/stack";
 import { stackClientApp } from "../stack/client";
 import { Geist_Mono, Outfit, Merriweather } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { navigationData } from "@/lib/utils";
@@ -39,7 +40,7 @@ export default function RootLayout({
         className={`${geistMono.variable} ${outfit.variable} ${merriweather.variable} antialiased`}
       >
         <Analytics />
-
+        <SpeedInsights />
         <StackProvider app={stackClientApp}>
           <StackTheme>
             <Navbar navigationData={navigationData} />

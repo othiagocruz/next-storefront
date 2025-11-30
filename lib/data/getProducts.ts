@@ -3,13 +3,16 @@ import { GetProductsQuery } from "../generated/graphql";
 import { cacheLife, cacheTag } from "next/cache";
 
 const query = gql`
-  query GetProducts @cached {
+  query GetProducts {
     products_new {
       base_price
       created_at
       description
       id
       name
+      product_likes {
+        user_id
+      }
       product_attributes_summary {
         grouped_attributes
       }
@@ -41,7 +44,7 @@ const query = gql`
   }
 `;
 
-export default async function getProducts() {
+export default async function getProducts({ userId }: { userId: string }) {
   "use cache";
 
   cacheLife("hasura");
@@ -49,7 +52,11 @@ export default async function getProducts() {
 
   const data = await request<GetProductsQuery>(
     process.env.HASURA_GRAPHQL_ENDPOINT as string,
-    query
+    query,
+    undefined,
+    {
+      "x-hasura-user-id": userId,
+    }
   );
 
   return data.products_new;

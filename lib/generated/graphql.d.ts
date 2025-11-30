@@ -692,6 +692,10 @@ export type Mutation_Root = {
   delete_cart?: Maybe<Cart_Mutation_Response>;
   /** delete single row from the table: "cart" */
   delete_cart_by_pk?: Maybe<Cart>;
+  /** delete data from the table: "product_likes" */
+  delete_product_likes?: Maybe<Product_Likes_Mutation_Response>;
+  /** delete single row from the table: "product_likes" */
+  delete_product_likes_by_pk?: Maybe<Product_Likes>;
   /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>;
   /** delete single row from the table: "users" */
@@ -700,6 +704,10 @@ export type Mutation_Root = {
   insert_cart?: Maybe<Cart_Mutation_Response>;
   /** insert a single row into the table: "cart" */
   insert_cart_one?: Maybe<Cart>;
+  /** insert data into the table: "product_likes" */
+  insert_product_likes?: Maybe<Product_Likes_Mutation_Response>;
+  /** insert a single row into the table: "product_likes" */
+  insert_product_likes_one?: Maybe<Product_Likes>;
   /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>;
   /** insert a single row into the table: "users" */
@@ -728,6 +736,19 @@ export type Mutation_RootDelete_Cart_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_Product_LikesArgs = {
+  where: Product_Likes_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Product_Likes_By_PkArgs = {
+  product_id: Scalars['Int']['input'];
+  user_id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_UsersArgs = {
   where: Users_Bool_Exp;
 };
@@ -750,6 +771,20 @@ export type Mutation_RootInsert_CartArgs = {
 export type Mutation_RootInsert_Cart_OneArgs = {
   object: Cart_Insert_Input;
   on_conflict?: InputMaybe<Cart_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Product_LikesArgs = {
+  objects: Array<Product_Likes_Insert_Input>;
+  on_conflict?: InputMaybe<Product_Likes_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Product_Likes_OneArgs = {
+  object: Product_Likes_Insert_Input;
+  on_conflict?: InputMaybe<Product_Likes_On_Conflict>;
 };
 
 
@@ -931,6 +966,154 @@ export type Product_Attributes_Summary_Stream_Cursor_Input = {
 export type Product_Attributes_Summary_Stream_Cursor_Value_Input = {
   grouped_attributes?: InputMaybe<Scalars['jsonb']['input']>;
   product_id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** columns and relationships of "product_likes" */
+export type Product_Likes = {
+  __typename?: 'product_likes';
+  /** An object relationship */
+  product: Products_New;
+  product_id: Scalars['Int']['output'];
+  user_id: Scalars['uuid']['output'];
+};
+
+/** order by aggregate values of table "product_likes" */
+export type Product_Likes_Aggregate_Order_By = {
+  avg?: InputMaybe<Product_Likes_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Product_Likes_Max_Order_By>;
+  min?: InputMaybe<Product_Likes_Min_Order_By>;
+  stddev?: InputMaybe<Product_Likes_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Product_Likes_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Product_Likes_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Product_Likes_Sum_Order_By>;
+  var_pop?: InputMaybe<Product_Likes_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Product_Likes_Var_Samp_Order_By>;
+  variance?: InputMaybe<Product_Likes_Variance_Order_By>;
+};
+
+/** order by avg() on columns of table "product_likes" */
+export type Product_Likes_Avg_Order_By = {
+  product_id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "product_likes". All fields are combined with a logical 'AND'. */
+export type Product_Likes_Bool_Exp = {
+  _and?: InputMaybe<Array<Product_Likes_Bool_Exp>>;
+  _not?: InputMaybe<Product_Likes_Bool_Exp>;
+  _or?: InputMaybe<Array<Product_Likes_Bool_Exp>>;
+  product?: InputMaybe<Products_New_Bool_Exp>;
+  product_id?: InputMaybe<Int_Comparison_Exp>;
+  user_id?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "product_likes" */
+export enum Product_Likes_Constraint {
+  /** unique or primary key constraint on columns "user_id", "product_id" */
+  ProductLikesPkey = 'product_likes_pkey'
+}
+
+/** input type for inserting data into table "product_likes" */
+export type Product_Likes_Insert_Input = {
+  product_id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** order by max() on columns of table "product_likes" */
+export type Product_Likes_Max_Order_By = {
+  product_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** order by min() on columns of table "product_likes" */
+export type Product_Likes_Min_Order_By = {
+  product_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "product_likes" */
+export type Product_Likes_Mutation_Response = {
+  __typename?: 'product_likes_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Product_Likes>;
+};
+
+/** on_conflict condition type for table "product_likes" */
+export type Product_Likes_On_Conflict = {
+  constraint: Product_Likes_Constraint;
+  update_columns?: Array<Product_Likes_Update_Column>;
+  where?: InputMaybe<Product_Likes_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "product_likes". */
+export type Product_Likes_Order_By = {
+  product?: InputMaybe<Products_New_Order_By>;
+  product_id?: InputMaybe<Order_By>;
+  user_id?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "product_likes" */
+export enum Product_Likes_Select_Column {
+  /** column name */
+  ProductId = 'product_id',
+  /** column name */
+  UserId = 'user_id'
+}
+
+/** order by stddev() on columns of table "product_likes" */
+export type Product_Likes_Stddev_Order_By = {
+  product_id?: InputMaybe<Order_By>;
+};
+
+/** order by stddev_pop() on columns of table "product_likes" */
+export type Product_Likes_Stddev_Pop_Order_By = {
+  product_id?: InputMaybe<Order_By>;
+};
+
+/** order by stddev_samp() on columns of table "product_likes" */
+export type Product_Likes_Stddev_Samp_Order_By = {
+  product_id?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "product_likes" */
+export type Product_Likes_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Product_Likes_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Product_Likes_Stream_Cursor_Value_Input = {
+  product_id?: InputMaybe<Scalars['Int']['input']>;
+  user_id?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** order by sum() on columns of table "product_likes" */
+export type Product_Likes_Sum_Order_By = {
+  product_id?: InputMaybe<Order_By>;
+};
+
+/** placeholder for update columns of table "product_likes" (current role has no relevant permissions) */
+export enum Product_Likes_Update_Column {
+  /** placeholder (do not use) */
+  Placeholder = '_PLACEHOLDER'
+}
+
+/** order by var_pop() on columns of table "product_likes" */
+export type Product_Likes_Var_Pop_Order_By = {
+  product_id?: InputMaybe<Order_By>;
+};
+
+/** order by var_samp() on columns of table "product_likes" */
+export type Product_Likes_Var_Samp_Order_By = {
+  product_id?: InputMaybe<Order_By>;
+};
+
+/** order by variance() on columns of table "product_likes" */
+export type Product_Likes_Variance_Order_By = {
+  product_id?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "product_variants" */
@@ -1204,6 +1387,8 @@ export type Products_New = {
   /** An object relationship */
   product_attributes_summary?: Maybe<Product_Attributes_Summary>;
   /** An array relationship */
+  product_likes: Array<Product_Likes>;
+  /** An array relationship */
   product_variants: Array<Product_Variants>;
 };
 
@@ -1215,6 +1400,16 @@ export type Products_NewAttribute_Price_AdjustmentsArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Attribute_Price_Adjustments_Order_By>>;
   where?: InputMaybe<Attribute_Price_Adjustments_Bool_Exp>;
+};
+
+
+/** columns and relationships of "products" */
+export type Products_NewProduct_LikesArgs = {
+  distinct_on?: InputMaybe<Array<Product_Likes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Product_Likes_Order_By>>;
+  where?: InputMaybe<Product_Likes_Bool_Exp>;
 };
 
 
@@ -1239,6 +1434,7 @@ export type Products_New_Bool_Exp = {
   id?: InputMaybe<Int_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   product_attributes_summary?: InputMaybe<Product_Attributes_Summary_Bool_Exp>;
+  product_likes?: InputMaybe<Product_Likes_Bool_Exp>;
   product_variants?: InputMaybe<Product_Variants_Bool_Exp>;
 };
 
@@ -1251,6 +1447,7 @@ export type Products_New_Order_By = {
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   product_attributes_summary?: InputMaybe<Product_Attributes_Summary_Order_By>;
+  product_likes_aggregate?: InputMaybe<Product_Likes_Aggregate_Order_By>;
   product_variants_aggregate?: InputMaybe<Product_Variants_Aggregate_Order_By>;
 };
 
@@ -1359,6 +1556,10 @@ export type Query_Root = {
   product_attributes_by_pk?: Maybe<Product_Attributes>;
   /** fetch data from the table: "product_attributes_summary" */
   product_attributes_summary: Array<Product_Attributes_Summary>;
+  /** An array relationship */
+  product_likes: Array<Product_Likes>;
+  /** fetch data from the table: "product_likes" using primary key columns */
+  product_likes_by_pk?: Maybe<Product_Likes>;
   /** An array relationship */
   product_variants: Array<Product_Variants>;
   /** fetch data from the table: "product_variants" using primary key columns */
@@ -1489,6 +1690,21 @@ export type Query_RootProduct_Attributes_SummaryArgs = {
 };
 
 
+export type Query_RootProduct_LikesArgs = {
+  distinct_on?: InputMaybe<Array<Product_Likes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Product_Likes_Order_By>>;
+  where?: InputMaybe<Product_Likes_Bool_Exp>;
+};
+
+
+export type Query_RootProduct_Likes_By_PkArgs = {
+  product_id: Scalars['Int']['input'];
+  user_id: Scalars['uuid']['input'];
+};
+
+
 export type Query_RootProduct_VariantsArgs = {
   distinct_on?: InputMaybe<Array<Product_Variants_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -1613,6 +1829,12 @@ export type Subscription_Root = {
   product_attributes_summary: Array<Product_Attributes_Summary>;
   /** fetch data from the table in a streaming manner: "product_attributes_summary" */
   product_attributes_summary_stream: Array<Product_Attributes_Summary>;
+  /** An array relationship */
+  product_likes: Array<Product_Likes>;
+  /** fetch data from the table: "product_likes" using primary key columns */
+  product_likes_by_pk?: Maybe<Product_Likes>;
+  /** fetch data from the table in a streaming manner: "product_likes" */
+  product_likes_stream: Array<Product_Likes>;
   /** An array relationship */
   product_variants: Array<Product_Variants>;
   /** fetch data from the table: "product_variants" using primary key columns */
@@ -1794,6 +2016,28 @@ export type Subscription_RootProduct_Attributes_Summary_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Product_Attributes_Summary_Stream_Cursor_Input>>;
   where?: InputMaybe<Product_Attributes_Summary_Bool_Exp>;
+};
+
+
+export type Subscription_RootProduct_LikesArgs = {
+  distinct_on?: InputMaybe<Array<Product_Likes_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Product_Likes_Order_By>>;
+  where?: InputMaybe<Product_Likes_Bool_Exp>;
+};
+
+
+export type Subscription_RootProduct_Likes_By_PkArgs = {
+  product_id: Scalars['Int']['input'];
+  user_id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootProduct_Likes_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Product_Likes_Stream_Cursor_Input>>;
+  where?: InputMaybe<Product_Likes_Bool_Exp>;
 };
 
 
@@ -2367,18 +2611,32 @@ export type Variant_Images_Variance_Order_By = {
 };
 
 export type GetProductByVariantSkuQueryVariables = Exact<{
-  sku?: InputMaybe<Scalars['String']['input']>;
+  sku: Scalars['String']['input'];
 }>;
 
 
-export type GetProductByVariantSkuQuery = { __typename?: 'query_root', products_new: Array<{ __typename?: 'products_new', base_price?: any | null, created_at?: any | null, description?: string | null, id: number, name: string, product_attributes_summary?: { __typename?: 'product_attributes_summary', grouped_attributes?: any | null } | null, product_variants: Array<{ __typename?: 'product_variants', created_at?: any | null, id: number, price: any, sku: string, stock_quantity?: number | null, variant_images: Array<{ __typename?: 'variant_images', alt_text?: string | null, display_order?: number | null, id: number, image_type?: string | null, image_url: string }>, variant_attributes: Array<{ __typename?: 'variant_attributes', attribute_value: { __typename?: 'attribute_values', value: string, id: number, attribute_id?: number | null, product_attribute?: { __typename?: 'product_attributes', display_name: string } | null } }> }> }>, attribute_values: Array<{ __typename?: 'attribute_values', id: number, value: string }> };
+export type GetProductByVariantSkuQuery = { __typename?: 'query_root', products_new: Array<{ __typename?: 'products_new', base_price?: any | null, created_at?: any | null, description?: string | null, id: number, name: string, product_likes: Array<{ __typename?: 'product_likes', user_id: string }>, product_attributes_summary?: { __typename?: 'product_attributes_summary', grouped_attributes?: any | null } | null, product_variants: Array<{ __typename?: 'product_variants', created_at?: any | null, id: number, price: any, sku: string, stock_quantity?: number | null, variant_images: Array<{ __typename?: 'variant_images', alt_text?: string | null, display_order?: number | null, id: number, image_type?: string | null, image_url: string }>, variant_attributes: Array<{ __typename?: 'variant_attributes', attribute_value: { __typename?: 'attribute_values', value: string, id: number, attribute_id?: number | null, product_attribute?: { __typename?: 'product_attributes', display_name: string } | null } }> }> }>, attribute_values: Array<{ __typename?: 'attribute_values', id: number, value: string }> };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductsQuery = { __typename?: 'query_root', products_new: Array<{ __typename?: 'products_new', base_price?: any | null, created_at?: any | null, description?: string | null, id: number, name: string, product_attributes_summary?: { __typename?: 'product_attributes_summary', grouped_attributes?: any | null } | null, product_variants: Array<{ __typename?: 'product_variants', created_at?: any | null, id: number, price: any, sku: string, stock_quantity?: number | null, variant_images: Array<{ __typename?: 'variant_images', alt_text?: string | null, display_order?: number | null, id: number, image_type?: string | null, image_url: string }>, variant_attributes: Array<{ __typename?: 'variant_attributes', attribute_value: { __typename?: 'attribute_values', value: string, id: number, attribute_id?: number | null, product_attribute?: { __typename?: 'product_attributes', display_name: string } | null } }> }> }> };
+export type GetProductsQuery = { __typename?: 'query_root', products_new: Array<{ __typename?: 'products_new', base_price?: any | null, created_at?: any | null, description?: string | null, id: number, name: string, product_likes: Array<{ __typename?: 'product_likes', user_id: string }>, product_attributes_summary?: { __typename?: 'product_attributes_summary', grouped_attributes?: any | null } | null, product_variants: Array<{ __typename?: 'product_variants', created_at?: any | null, id: number, price: any, sku: string, stock_quantity?: number | null, variant_images: Array<{ __typename?: 'variant_images', alt_text?: string | null, display_order?: number | null, id: number, image_type?: string | null, image_url: string }>, variant_attributes: Array<{ __typename?: 'variant_attributes', attribute_value: { __typename?: 'attribute_values', value: string, id: number, attribute_id?: number | null, product_attribute?: { __typename?: 'product_attributes', display_name: string } | null } }> }> }> };
 
 export type GetProductVariantsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetProductVariantsQuery = { __typename?: 'query_root', product_variants: Array<{ __typename?: 'product_variants', sku: string, id: number, stock_quantity?: number | null, price: any }> };
+
+export type InsertLikeMutationVariables = Exact<{
+  product_id: Scalars['Int']['input'];
+}>;
+
+
+export type InsertLikeMutation = { __typename?: 'mutation_root', insert_product_likes_one?: { __typename?: 'product_likes', product_id: number, user_id: string } | null };
+
+export type DeleteLikeMutationVariables = Exact<{
+  product_id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteLikeMutation = { __typename?: 'mutation_root', delete_product_likes?: { __typename?: 'product_likes_mutation_response', affected_rows: number } | null };

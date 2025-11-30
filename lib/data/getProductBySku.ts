@@ -5,13 +5,16 @@ import {
 } from "../generated/graphql";
 
 export const GetProductByVariantSku = gql`
-  query GetProductByVariantSku($sku: String = "") {
+  query GetProductByVariantSku($sku: String!) {
     products_new(where: { product_variants: { sku: { _eq: $sku } } }) {
       base_price
       created_at
       description
       id
       name
+      product_likes {
+        user_id
+      }
       product_attributes_summary {
         grouped_attributes
       }
@@ -49,13 +52,26 @@ export const GetProductByVariantSku = gql`
   }
 `;
 
-export default async function getProductBySku({ sku }: { sku: string }) {
+export default async function getProductBySku({
+  sku,
+  userId,
+}: {
+  sku: string;
+  userId: string;
+}) {
   const data = await request<
     GetProductByVariantSkuQuery,
     GetProductByVariantSkuQueryVariables
-  >(process.env.HASURA_GRAPHQL_ENDPOINT as string, GetProductByVariantSku, {
-    sku,
-  });
+  >(
+    process.env.HASURA_GRAPHQL_ENDPOINT as string,
+    GetProductByVariantSku,
+    {
+      sku,
+    },
+    {
+      "x-hasura-user-id": userId,
+    }
+  );
 
   return data;
 }

@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useActionState, useState } from "react";
 import useSWR from "swr";
 import Image from "next/image";
 
-import { HeartIcon } from "lucide-react";
+import { HeartIcon, LoaderCircleIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import {
   GetProductByVariantSkuQuery,
   GetProductsQuery,
 } from "@/lib/generated/graphql";
+import AddOrRemoveLike from "@/lib/likes";
 
 export interface ProductAttributeValue {
   value: string;
@@ -46,8 +47,6 @@ const ProductCard = ({
   values?: GetProductByVariantSkuQuery["attribute_values"];
   swr?: boolean;
 }) => {
-  const [liked, setLiked] = useState<boolean>(false);
-
   let { data: product } = useSWR<GetProductsQuery["products_new"][0]>(
     swr ? `/api/product/${initialValues.product_variants[0].sku}` : null,
     fetcher,
@@ -76,7 +75,10 @@ const ProductCard = ({
   const [currentVariant, setCurrentVariant] = useState(
     product.product_variants[0]
   );
-
+  const [liked, setLiked, pending] = useActionState(
+    (liked) => AddOrRemoveLike({ id: product.id, liked: !liked }),
+    product.product_likes.length > 0
+  );
   const checkAvailability = (attributeId: number, value: string) => {
     const values: string[] = [];
     Object.values(variants[currentVariant.sku]).forEach((attr) => {
@@ -111,14 +113,20 @@ const ProductCard = ({
       />
       <Button
         size="icon"
-        onClick={() => setLiked(!liked)}
+        onClick={() => {
+          startTransition(setLiked);
+        }}
         className="bg-primary/10 hover:bg-primary/20 absolute top-4 right-4 rounded-full"
       >
-        <HeartIcon
-          className={cn(
-            liked ? "fill-destructive stroke-destructive" : "stroke-white"
-          )}
-        />
+        {pending ? (
+          <LoaderCircleIcon className="animate-spin" />
+        ) : (
+          <HeartIcon
+            className={cn(
+              liked ? "fill-destructive stroke-destructive" : "stroke-white"
+            )}
+          />
+        )}
         <span className="sr-only">Like</span>
       </Button>
       <Card className="border-none rounded-t-none rounded-b-xl flex flex-1 flex-col grow">

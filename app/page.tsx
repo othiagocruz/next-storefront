@@ -2,11 +2,16 @@ import Container from "@/components/Container";
 import ProductsList from "@/components/products/ProductList";
 import { Button } from "@/components/ui/button";
 import getProducts from "@/lib/data/getProducts";
+import { getOrCreateSessionId } from "@/lib/sessionManager";
+import { stackServerApp } from "@/stack/server";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
 export default async function Home() {
-  const products = await getProducts();
+  "use server";
+  const user = await stackServerApp.getUser();
+  const userId = user ? user.id : await getOrCreateSessionId();
+  const products = await getProducts({ userId });
 
   return (
     <Container>
