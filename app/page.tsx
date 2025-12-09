@@ -1,5 +1,6 @@
 import Container from "@/components/Container";
 import ProductsList from "@/components/products/ProductList";
+import SkeletonList from "@/components/products/SkeletonList";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
@@ -28,7 +29,7 @@ export default async function Home() {
         </Button>
       </div>
 
-      <Suspense>
+      <Suspense fallback={<SkeletonList />}>
         <ProductsList />
       </Suspense>
     </Container>

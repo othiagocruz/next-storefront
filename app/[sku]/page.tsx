@@ -1,4 +1,6 @@
+import Container from "@/components/Container";
 import { ProductPage } from "@/components/products/ProductPage";
+import { SkeletonCard } from "@/components/products/SkeletonCard";
 import getProductBySku from "@/lib/data/getProductBySku";
 import { getSessionId } from "@/lib/sessionManager";
 import { Suspense } from "react";
@@ -25,7 +27,13 @@ export default async function Product({
   const { sku } = await params;
 
   return (
-    <Suspense>
+    <Suspense
+      fallback={
+        <Container center>
+          <SkeletonCard />
+        </Container>
+      }
+    >
       <ProductPage sku={sku} />
     </Suspense>
   );
