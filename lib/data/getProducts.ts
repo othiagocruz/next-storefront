@@ -3,16 +3,13 @@ import { GetProductsQuery } from "../generated/graphql";
 import { cacheLife, cacheTag } from "next/cache";
 
 const query = gql`
-  query GetProducts {
+  query GetProducts @cached {
     products_new {
       base_price
       created_at
       description
       id
       name
-      product_likes {
-        user_id
-      }
       product_attributes_summary {
         grouped_attributes
       }

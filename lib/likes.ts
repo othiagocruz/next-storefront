@@ -48,7 +48,7 @@ export default async function AddOrRemoveLike({
           "x-hasura-user-id": userId,
         }
       );
-      updateTag("products");
+      updateTag("likes");
       return true;
     } else {
       await request<DeleteLikeMutation, DeleteLikeMutationVariables>(
@@ -61,7 +61,7 @@ export default async function AddOrRemoveLike({
           "x-hasura-user-id": userId,
         }
       );
-      updateTag("products");
+      updateTag("likes");
       return false;
     }
   } catch (error) {

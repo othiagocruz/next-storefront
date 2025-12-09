@@ -21,6 +21,7 @@ import { cn, fetcher, usdFormatter } from "@/lib/utils";
 import {
   GetProductByVariantSkuQuery,
   GetProductsQuery,
+  UserLikesQuery,
 } from "@/lib/generated/graphql";
 import AddOrRemoveLike from "@/lib/likes";
 
@@ -41,10 +42,12 @@ export type GroupedAttributes = ProductAttribute[];
 const ProductCard = ({
   product: initialValues,
   values,
+  productsLiked,
   swr,
 }: {
   product: GetProductsQuery["products_new"][0];
   values?: GetProductByVariantSkuQuery["attribute_values"];
+  productsLiked: UserLikesQuery;
   swr?: boolean;
 }) => {
   let { data: product } = useSWR<GetProductsQuery["products_new"][0]>(
@@ -75,9 +78,10 @@ const ProductCard = ({
   const [currentVariant, setCurrentVariant] = useState(
     product.product_variants[0]
   );
+  const { likes } = productsLiked;
   const [liked, setLiked, pending] = useActionState(
     (liked) => AddOrRemoveLike({ id: product.id, liked: !liked }),
-    product.product_likes.length > 0
+    likes.filter((like) => like.product_id === product.id).length > 0
   );
   const checkAvailability = (attributeId: number, value: string) => {
     const values: string[] = [];

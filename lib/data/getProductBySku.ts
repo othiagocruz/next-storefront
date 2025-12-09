@@ -3,18 +3,16 @@ import {
   GetProductByVariantSkuQuery,
   GetProductByVariantSkuQueryVariables,
 } from "../generated/graphql";
+import { cacheLife, cacheTag } from "next/cache";
 
 export const GetProductByVariantSku = gql`
-  query GetProductByVariantSku($sku: String!) {
+  query GetProductByVariantSku($sku: String!) @cached {
     products_new(where: { product_variants: { sku: { _eq: $sku } } }) {
       base_price
       created_at
       description
       id
       name
-      product_likes {
-        user_id
-      }
       product_attributes_summary {
         grouped_attributes
       }
@@ -59,6 +57,11 @@ export default async function getProductBySku({
   sku: string;
   userId: string;
 }) {
+  "use cache";
+
+  cacheLife("hasura");
+  cacheTag("products");
+
   const data = await request<
     GetProductByVariantSkuQuery,
     GetProductByVariantSkuQueryVariables
